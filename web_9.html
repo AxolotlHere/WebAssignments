@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Categorization</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .hot { background-color: #ff6666; }   /* Red for HOT */
+        .pleasant { background-color: #66ff66; } /* Green for PLEASANT */
+        .cold { background-color: #6699ff; }  /* Blue for COLD */
+    </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .boarding-pass {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid black;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>New York City Temperature Analysis</h2>
+
+    <table id="temperatureTable">
+        <tr>
+            <th>Day</th>
+            <th>Temperature (°F)</th>
+            <th>Category</th>
+        </tr>
+    </table>
+
+    <h3 id="summary"></h3>
+
+    <script>
+        // Given temperature readings
+        const temperatures = [55,62,68,74,59,45,41,58,60,67,65,78,82,88,91,92,90,93,87,80,78,79,72,68,61,59,55,65];
+
+        let hotDays = 0, pleasantDays = 0, coldDays = 0;
+        const table = document.getElementById("temperatureTable");
+
+        // Process each temperature
+        temperatures.forEach((temp, index) => {
+            let category = "";
+            let className = "";
+
+            if (temp >= 85) {
+                category = "HOT";
+                className = "hot";
+                hotDays++;
+            } else if (temp >= 60) {
+                category = "PLEASANT";
+                className = "pleasant";
+                pleasantDays++;
+            } else {
+                category = "COLD";
+                className = "cold";
+                coldDays++;
+            }
+
+            // Insert row into table
+            const row = table.insertRow();
+            row.innerHTML = `<td>${index + 1}</td><td>${temp}</td><td class="${className}">${category}</td>`;
+        });
+
+        // Display summary
+        document.getElementById("summary").innerHTML = 
+            `Hot Days: ${hotDays} | Pleasant Days: ${pleasantDays} | Cold Days: ${coldDays}`;
+    </script>
+    <h2>Welcome to Airline Reservation System</h2>
+
+    <label for="name">Enter your name:</label>
+    <input type="text" id="name" placeholder="Your Name">
+    
+    <p>Select Class:</p>
+    <button onclick="bookSeat(1)">First Class</button>
+    <button onclick="bookSeat(2)">Economy Class</button>
+
+    <div class="boarding-pass" id="boardingPass">
+        <h3>Boarding Pass</h3>
+        <p><strong>Passenger Name:</strong> <span id="passengerName"></span></p>
+        <p><strong>Seat Number:</strong> <span id="seatNumber"></span></p>
+        <p><strong>Class:</strong> <span id="seatClass"></span></p>
+    </div>
+    <script>
+        let seats = new Array(10).fill(0);  // 1D array to track seat availability
+
+        function bookSeat(choice) {
+            let name = document.getElementById("name").value.trim();
+            if (!name) {
+                alert("Please enter your name.");
+                return;
+            }
+
+            let seatNumber = -1;
+            let seatClass = "";
+            
+            if (choice === 1) {
+                seatNumber = findAvailableSeat(0, 5);
+                seatClass = "First Class";
+                if (seatNumber === -1) {
+                    if (confirm("First class is full. Do you want to book an Economy seat?")) {
+                        seatNumber = findAvailableSeat(5, 10);
+                        seatClass = "Economy";
+                    } else {
+                        alert("Next flight leaves in 3 hours.");
+                        return;
+                    }
+                }
+            } else if (choice === 2) {
+                seatNumber = findAvailableSeat(5, 10);
+                seatClass = "Economy";
+                if (seatNumber === -1) {
+                    if (confirm("Economy class is full. Do you want to book a First-Class seat?")) {
+                        seatNumber = findAvailableSeat(0, 5);
+                        seatClass = "First Class";
+                    } else {
+                        alert("Next flight leaves in 3 hours.");
+                        return;
+                    }
+                }
+            }
+
+            if (seatNumber !== -1) {
+                seats[seatNumber] = 1;  // Mark seat as booked
+                displayBoardingPass(name, seatNumber + 1, seatClass);
+            } else {
+                alert("Sorry, the flight is fully booked!");
+            }
+        }
+
+        function findAvailableSeat(start, end) {
+            for (let i = start; i < end; i++) {
+                if (seats[i] === 0) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function displayBoardingPass(name, seat, seatClass) {
+            document.getElementById("passengerName").innerText = name;
+            document.getElementById("seatNumber").innerText = seat;
+            document.getElementById("seatClass").innerText = seatClass;
+            document.getElementById("boardingPass").style.display = "block";
+        }
+    </script>
+    <h2>BMI Calculator</h2>
+    <label for="weight">Weight (lbs): </label>
+    <input type="number" id="weight" placeholder="Enter weight in lbs">
+    <br><br>
+    <label for="height">Height (inches): </label>
+    <input type="number" id="height" placeholder="Enter height in inches">
+    <br><br>
+    <button onclick="calculateBMI()">Calculate</button>
+    <script>
+        function calculateBMI() {
+            let weight = parseFloat(document.getElementById("weight").value);
+            let height = parseFloat(document.getElementById("height").value);
+            if (isNaN(weight) || isNaN(height) || height <= 0) {
+                alert("Please enter valid values for weight and height.");
+                return;
+            }
+            
+            let bmi = (703 * weight) / (height * height);
+            let status = "";
+            
+            if (bmi < 18.5) {
+                status = "Underweight";
+            } else if (bmi >= 18.5 && bmi < 25) {
+                status = "Ideal Range";
+            } else if (bmi >= 25 && bmi < 30) {
+                status = "Overweight";
+            } else {
+                status = "Obese";
+            }
+            
+            alert("Your BMI is: " + bmi.toFixed(2) + " (" + status + ")");
+        }
+    </script>
+</body>
+</html>
+
