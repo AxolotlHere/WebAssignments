@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Order Receipt</h2>
+    <p id="customer-info"></p>
+    <h3>Ordered Items:</h3>
+    <ul id="order-list"></ul>
+    <h3>Total: $<span id="total-price">0</span></h3>
+</div>
+
+<script>
+    window.onload = function () {
+        let order = JSON.parse(sessionStorage.getItem("order"));
+
+        if (!order) {
+            document.querySelector(".container").innerHTML = "<h2>No order found.</h2>";
+            return;
+        }
+
+        document.getElementById("customer-info").innerHTML = `
+            <strong>Name:</strong> ${order.name}<br>
+            <strong>Phone:</strong> ${order.phone}<br>
+            <strong>Email:</strong> ${order.email}
+        `;
+
+        let totalPrice = 0;
+        let orderList = document.getElementById("order-list");
+
+        order.orderDetails.forEach(item => {
+            let itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            let li = document.createElement("li");
+            li.textContent = `${item.name} - ${item.quantity}kg ($${itemTotal})`;
+            orderList.appendChild(li);
+        });
+
+        document.getElementById("total-price").textContent = totalPrice;
+    };
+</script>
+
+</body>
+</html>

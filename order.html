@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: #98a07e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .product img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #b88647;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Grocery Order Form</h2>
+    <label>Customer Name: <input type="text" id="name"></label><br><br>
+    <label>Phone Number: <input type="text" id="phone"></label><br><br>
+    <label>Email: <input type="email" id="email"></label><br><br>
+
+    <h3>Products</h3>
+
+    <div class="product">
+        <input type="checkbox" class="product-check" data-name="Apple" data-price="10">
+        <label>Apple - $10/kg</label>
+        <input type="number" min="1" class="quantity" placeholder="kg" disabled>
+    </div>
+
+    <div class="product">
+        <input type="checkbox" class="product-check" data-name="Banana" data-price="5">
+        <label>Banana - $5/kg</label>
+        <input type="number" min="1" class="quantity" placeholder="kg" disabled>
+    </div>
+
+    <div class="product">
+        <input type="checkbox" class="product-check" data-name="Avocado" data-price="7">
+        <label>Avocado - $7/kg</label>
+        <input type="number" min="1" class="quantity" placeholder="kg" disabled>
+    </div>
+
+    <button class="submit-btn" onclick="submitOrder()">SUBMIT</button>
+</div>
+
+<script>
+    // Enable input field when checkbox is checked
+    document.querySelectorAll(".product-check").forEach(check => {
+        check.addEventListener("change", function () {
+            let quantityInput = this.parentElement.querySelector(".quantity");
+            quantityInput.disabled = !this.checked;
+            if (this.checked) quantityInput.focus();
+        });
+    });
+
+    function submitOrder() {
+        let name = document.getElementById("name").value;
+        let phone = document.getElementById("phone").value;
+        let email = document.getElementById("email").value;
+        let orderDetails = [];
+
+        document.querySelectorAll(".product-check").forEach(check => {
+            if (check.checked) {
+                let quantity = check.parentElement.querySelector(".quantity").value;
+                if (quantity > 0) {
+                    orderDetails.push({
+                        name: check.getAttribute("data-name"),
+                        price: check.getAttribute("data-price"),
+                        quantity: quantity
+                    });
+                }
+            }
+        });
+
+        if (!name || !phone || !email || orderDetails.length === 0) {
+            alert("Please fill all fields and select at least one product.");
+            return;
+        }
+
+        // Store order in session storage to pass data to receipt page
+        sessionStorage.setItem("order", JSON.stringify({ name, phone, email, orderDetails }));
+
+        // Redirect to receipt page
+        window.location.href = "receipt.html";
+    }
+</script>
+
+</body>
+</html>
+

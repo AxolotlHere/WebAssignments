@@ -1,0 +1,104 @@
+i
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Data Analysis</title>
+</head>
+<body>
+    <h1 id="title">Original Title</h1>
+    <input type="text" name="username">
+    <input type="radio" name="gender" value="Male"> Male
+    <input type="radio" name="gender" value="Female"> Female
+    
+    <p class="info">Info paragraph 1</p>
+    <p class="info">Info paragraph 2</p>
+    
+    <p>Paragraph 1</p>
+    <p>Paragraph 2</p>
+    
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+    
+    <input type="checkbox" class="hobby" value="Reading"> Reading
+    <input type="checkbox" class="hobby" value="Gaming"> Gaming
+    <input type="checkbox" class="hobby" value="Coding"> Coding
+    
+    <script>
+        // Patient data
+        const patients = [
+            { PId: 1, Name: "Alen", Age: 39 },
+            { PId: 2, Name: "Deena", Age: 47 },
+            { PId: 3, Name: "Diana", Age: 21 },
+            { PId: 4, Name: "Jack", Age: 54 },
+            { PId: 5, Name: "Jain", Age: 23 },
+            { PId: 6, Name: "Kelvin", Age: 61 },
+            { PId: 7, Name: "Louis", Age: 69 },
+            { PId: 8, Name: "Rex", Age: 49 }
+        ];
+
+        // (i) Sort patients in descending order by age
+        function sortByAgeDescending(patients) {
+            return patients.sort((a, b) => b.Age - a.Age);
+        }
+        console.log("Sorted patients by age (descending):", sortByAgeDescending([...patients]));
+
+        // (ii) Check if a P-Id exists in the list
+        function checkPatientExists(patients, pId) {
+            return patients.some(patient => patient.PId === pId);
+        }
+        console.log("Is P-Id 4 present?", checkPatientExists(patients, 4));
+        console.log("Is P-Id 10 present?", checkPatientExists(patients, 10));
+
+        // (iii) Filter patients by age range
+        function filterPatientsByAge(patients, minAge, maxAge) {
+            return patients.filter(patient => patient.Age >= minAge && patient.Age <= maxAge);
+        }
+        console.log("Patients between 30 and 50:", filterPatientsByAge(patients, 30, 50));
+
+        // (a) Using getElementById
+        document.getElementById("title").textContent = "Updated Title";
+
+        // (b) Using getElementsByName
+        document.getElementsByName("username")[0].value = "John Doe";
+        const genderRadios = document.getElementsByName("gender");
+        for (let radio of genderRadios) {
+            if (radio.checked) {
+                console.log("Selected gender:", radio.value);
+            }
+        }
+
+        // (c) Using getElementsByTagName
+        console.log("Total <p> elements:", document.getElementsByTagName("p").length);
+        const listItems = document.getElementsByTagName("li");
+        for (let item of listItems) {
+            console.log("List item:", item.textContent);
+        }
+
+        // (d) Using getElementsByClassName
+        const inputFields = document.getElementsByClassName("input-field");
+        for (let field of inputFields) {
+            field.style.backgroundColor = "lightblue";
+        }
+
+        // (e) Using querySelector
+        document.querySelector(".info").textContent = "This is the first info paragraph";
+        document.querySelector("input[name='gender']").checked = true;
+
+        // (f) Using querySelectorAll
+        const infoParagraphs = document.querySelectorAll(".info");
+        infoParagraphs.forEach(p => console.log("Info paragraph:", p.textContent));
+        
+        const checkboxes = document.querySelectorAll(".hobby");
+        checkboxes.forEach(box => {
+            box.checked = true;
+            console.log("Checked hobby:", box.value);
+        });
+    </script>
+</body>
+</html>
+
