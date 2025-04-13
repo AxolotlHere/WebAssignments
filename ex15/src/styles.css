@@ -1,0 +1,10 @@
+.external-button {
+    background-color: darkorange;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
