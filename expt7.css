@@ -1,0 +1,36 @@
+.q2{
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4f6NfcA_B2ATOX3q7PAyaNYHc1balrG7iuA&s");
+    background-position: center;
+
+}
+
+.q2 h1{
+    background-image: linear-gradient(violet,indigo,blue,green,yellow,orange,red); 
+    color: transparent; 
+    background-clip: text;
+}
+.q2 p{
+    line-height: 30pt;
+}
+
+#svg-wrapper{
+  animation: tran 5s infinite;
+}
+svg{
+  width: fit-content;
+  height: fit-content;
+  animation: move 5s infinite;
+}
+
+@keyframes tran {
+  0%{transform:translate(50px);}
+  50%{transform:translate(120px);}
+  100%{transform:translate(50px);}
+}
+
+@keyframes move{
+  50%{
+    transform: rotate(180deg);
+  }
+  100%{transform: rotate(360deg);}
+}

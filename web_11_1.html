@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+  <head>
+    <title>23BCE5130</title>
+    <style>
+      #dynamic-table td {
+        border: 1px solid black;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>1. Dynamic Table and Events</h2>
+
+    <div id="table-container"></div>
+
+    <br />
+
+    <!-- Button and Textbox dynamically created -->
+    <div id="dynamic-controls"></div>
+
+    <br />
+
+    <!-- Input + button to add to ul -->
+    <input type="text" id="input-li" />
+    <button id="add-li">Add to List (Double Click)</button>
+    <ul id="list-ul"></ul>
+
+    <br />
+
+    <!-- Keypress counter -->
+    <input type="text" id="key-input" />
+    <input type="text" id="key-count" readonly placeholder="Key Count" />
+    <h2>2. Stopwatch and Other Fields</h2>
+
+    <!-- Stopwatch -->
+    <div>
+      <span id="stopwatch">0</span> seconds
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+      <button id="reset">Reset</button>
+    </div>
+
+    <br />
+
+    <!-- DOB + Age -->
+    <label>Date of Birth: <input type="date" id="dob" /></label>
+    <p id="age-output"></p>
+
+    <br />
+
+    <!-- Char Counter -->
+    <textarea id="char-area" rows="4" cols="50"></textarea>
+    <p>Characters typed: <span id="char-count">0</span></p>
+    <h2>3. Form Validation</h2>
+
+    <form id="myForm">
+      <label
+        >Name* (max 15 chars):
+        <input type="text" name="name" maxlength="15" /></label
+      ><br /><br />
+      <label>Address*: <textarea name="address"></textarea></label><br /><br />
+      <label>Zip Code*: <input type="text" name="zip" /></label><br /><br />
+      <label>Phone*: <input type="text" name="phone" /></label><br /><br />
+      <label>Email*: <input type="email" name="email" /></label><br /><br />
+      <label>Password*: <input type="password" name="password" /></label
+      ><br /><br />
+      <label>PAN Card No*: <input type="text" name="pan" /></label><br /><br />
+
+      <label
+        >Gender:
+        <select name="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select> </label
+      ><br /><br />
+
+      <label
+        >Country:
+        <select name="country">
+          <option value="India">India</option>
+          <option value="Others">Others</option>
+        </select> </label
+      ><br /><br />
+
+      <label
+        >Preferences:
+        <input type="checkbox" name="prefs" value="Newsletter" /> Newsletter
+        <input type="checkbox" name="prefs" value="Notifications" />
+        Notifications </label
+      ><br /><br />
+
+      <button type="button" onclick="validateForm()">Submit</button>
+      <button type="button" onclick="printForm()">Print</button>
+    </form>
+
+    <p id="current-time"></p>
+
+    <script>
+      // Timer to show current time
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById("current-time").innerText =
+          `Current time: ${now.toLocaleTimeString()}`;
+      }, 1000);
+
+      // Form validation logic
+      function validateForm() {
+        const form = document.forms["myForm"];
+        const name = form["name"];
+        const address = form["address"];
+        const zip = form["zip"];
+        const phone = form["phone"];
+        const email = form["email"];
+        const password = form["password"];
+        const pan = form["pan"];
+
+        if (!name.value || name.value.length > 15) {
+          alert("Name is required and should be under 15 characters.");
+          name.focus();
+          return;
+        }
+
+        if (!address.value) {
+          alert("Address is required.");
+          address.focus();
+          return;
+        }
+
+        if (!/^\d+$/.test(zip.value) || zip.value.length > 6) {
+          alert("Zip should be numeric and up to 6 digits.");
+          zip.focus();
+          return;
+        }
+
+        if (!/^\d{10}$/.test(phone.value)) {
+          alert("Phone should be exactly 10 digits.");
+          phone.focus();
+          return;
+        }
+
+        if (!/^[\w.-]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email.value)) {
+          alert("Invalid email format.");
+          email.focus();
+          return;
+        }
+
+        if (
+          !/(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).{8,15}/.test(password.value)
+        ) {
+          alert(
+            "Password must be 8–15 chars with number, letter & special char.",
+          );
+          password.focus();
+          return;
+        }
+
+        if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan.value)) {
+          alert("Invalid PAN format (e.g., ABCDE1234F)");
+          pan.focus();
+          return;
+        }
+
+        alert("Form is valid!");
+      }
+
+      function printForm() {
+        const gender = document.getElementsByName("gender")[0].value;
+        const country = document.getElementsByName("country")[0].value;
+        const prefs = document.getElementsByName("prefs");
+        const selectedPrefs = Array.from(prefs)
+          .filter((p) => p.checked)
+          .map((p) => p.value);
+
+        alert(
+          `Gender: ${gender}\nCountry: ${country}\nPreferences: ${selectedPrefs.join(", ")}`,
+        );
+      }
+    </script>
+    <script>
+      // Stopwatch logic
+      let count = 0,
+        interval;
+      const timer = document.getElementById("stopwatch");
+
+      document.getElementById("start").onclick = () => {
+        interval = setInterval(() => {
+          count++;
+          timer.innerText = count;
+        }, 1000);
+      };
+
+      document.getElementById("stop").onclick = () => clearInterval(interval);
+      document.getElementById("reset").onclick = () => {
+        clearInterval(interval);
+        count = 0;
+        timer.innerText = "0";
+      };
+
+      // DOB -> Age on mouseover
+      document.getElementById("dob").addEventListener("mouseover", () => {
+        const dob = new Date(document.getElementById("dob").value);
+        if (!isNaN(dob)) {
+          const age = new Date().getFullYear() - dob.getFullYear();
+          document.getElementById("age-output").innerText = `Your age: ${age}`;
+        }
+      });
+
+      // Char counter
+      document
+        .getElementById("char-area")
+        .addEventListener("input", function () {
+          document.getElementById("char-count").innerText = this.value.length;
+        });
+    </script>
+
+    <script>
+      // (i) Create a dynamic 3x3 table
+      const table = document.createElement("table");
+      table.setAttribute("id", "dynamic-table");
+      for (let i = 0; i < 3; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 3; j++) {
+          const cell = document.createElement("td");
+          cell.innerText = `Row ${i + 1}, Col ${j + 1}`;
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+      document.getElementById("table-container").appendChild(table);
+
+      // (ii) Button: red to green on mouseover
+      const btn = document.createElement("button");
+      btn.innerText = "Hover Me";
+      btn.style.backgroundColor = "red";
+      btn.onmouseover = () => (btn.style.backgroundColor = "green");
+      btn.onmouseout = () => (btn.style.backgroundColor = "red");
+
+      // (iii) Textbox color change on focus + greeting on change
+      const textbox = document.createElement("input");
+      textbox.type = "text";
+      textbox.placeholder = "Enter something";
+      textbox.style.backgroundColor = "green";
+
+      textbox.onfocus = () => (textbox.style.backgroundColor = "yellow");
+      textbox.onchange = () => alert("Hello! You changed the input.");
+
+      const container = document.getElementById("dynamic-controls");
+      container.appendChild(btn);
+      container.appendChild(document.createElement("br"));
+      container.appendChild(textbox);
+
+      // (iv) Input + Button to add <li>
+      document.getElementById("add-li").ondblclick = () => {
+        const val = document.getElementById("input-li").value;
+        if (val.trim() !== "") {
+          const li = document.createElement("li");
+          li.textContent = val;
+          document.getElementById("list-ul").appendChild(li);
+          document.getElementById("input-li").value = "";
+        }
+      };
+
+      // (v) Keypress counter
+      let keyCount = 0;
+      const inputField = document.getElementById("key-input");
+      const counterField = document.getElementById("key-count");
+
+      inputField.addEventListener("keydown", () => {
+        keyCount++;
+        counterField.value = keyCount;
+      });
+    </script>
+  </body>
+</html>

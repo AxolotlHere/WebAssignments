@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>23BCE5130</title>
+</head>
+<body style="font-family: 'Segoe UI'">
+    <form>
+        <fieldset>
+            <legend style="color:red"><b>Personal details</b></legend>
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>:
+                        <input></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>:
+                        <input></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email ID</td>
+                    <td>:
+                        <input></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>:<input type="radio" value="Male">Male</input></td>
+                    <td><input type="radio" value="Female">Female</input></td>
+                </tr>
+                <tr>
+                    <td>DOB</td>
+                    <td>:
+                        <input type="date" placeholder="mm/dd/yyyy"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mobile#</td>
+                    <td>:
+                        <input></input>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend style="color:red"><b>Educational Qualification</b></legend>
+            <table>
+                <tr>
+                    <td>Degree:</td>
+                    <tD><select>
+                        <option selected="true" disabled="true">--SELECT GROUP--</option>
+                        <optgroup label="UG">
+                            <option>BE</option>
+                            <option>BTech</option>
+                            <option>BSc</option>
+                            <option>BA</option>
+                            <option>BCA</option>
+                            <option>BBA</option>
+                            <option>Others</option>
+                        </optgroup>
+                        <optgroup label="PG">
+                            <option>ME</option>
+                            <option>MTech</option>
+                            <option>MSc</option>
+                            <option>MA</option>
+                            <option>MCA</option>
+                            <option>MBA</option>
+                            <option>Others</option>
+                        </optgroup>
+                        <optgroup label="PhD">
+                            <option>Engineering</option>
+                            <option>Science</option>
+                            <option>Management</option>
+                            <option>Others</option>
+                        </optgroup>
+                    </select></tD>
+                    <td>
+                        Engineering:
+                    </td>
+                    <tD>
+                        <select>
+                            <option selected="true" disabled="true">--SELECT GROUP--</option>
+                            <option>CSE</option>
+                            <option>ECE</option>
+                            <option>EEE</option>
+                            <option>Civil</option>
+                            <option>Mech</option>
+                            </select>
+                    </tD>
+                    </tr>
+            </table>
+        </fieldset>
+        <table>
+            <tr><td>Hobbies
+            <input type="checkbox">Playing chess</input>
+            <input type="checkbox">Reading book</input></td></tr>
+            
+            <tr>
+                <td>Favourite color:
+                <input type="color"></input></td>
+                <br>
+            </tr>
+        </table>
+        <div style="color:red"><b>Address</b></div>
+        <textarea rows="5" cols="50"></textarea>
+
+        <table>
+            <tr>
+                <td>
+                    Attach resume :
+                    <input type="file"></input>
+                    <input type="button" value="submit"></input>
+                </td>
+ 
+            </tr>
+        </table>
+    </form>
+    <form oninput="x.value=parseInt(a.value)+parseInt(b.value)+parseInt(c.value)">
+        <tr><td><input type="range" max="50" id="a" value="0"></input>
+        <input type="range" max="50" id="b" value="0"></input>
+        <input type="range" max="50" id="c" value="0"></input>
+        <output id="x"></output></tr></td>
+    </form>
+        
+</body>
+</html>
